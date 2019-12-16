@@ -211,7 +211,6 @@ textarea {
     background: transparent !important;
     color: #000 !important;
     /* Black prints faster */
-    -webkit-box-shadow: none !important;
     box-shadow: none !important;
     text-shadow: none !important;
   }
@@ -262,14 +261,5 @@ textarea {
   h3 {
     page-break-after: avoid;
   }
-}
-
-div#result {
-  height: 300px;
-  overflow: auto;
-}
-div#resultt {
-  height: 500px;
-  overflow: auto;
 }
 
