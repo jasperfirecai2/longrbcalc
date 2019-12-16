@@ -5,3 +5,4 @@
 .git
 .gitattributes
 .editorconfig
+node_modules
