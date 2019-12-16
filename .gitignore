@@ -3,11 +3,5 @@
 # Useful .gitignore templates: https://github.com/github/gitignore
 .idea
 .git
-.htaccess
-404.html
-site.webmanifest
-robots.txt
-humans.txt
-browserconfig.xml
 .gitattributes
 .editorconfig
