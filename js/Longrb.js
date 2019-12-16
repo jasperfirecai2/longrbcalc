@@ -25,7 +25,7 @@ export class Longrb
     this.currenteNGUa = 0;
     this.currentNGUb = 0;
     this.currenteNGUb = 0;
-    this.subtotal = 1000;
+    this.subtotal = 1000000000;
     this.goalmulti = 2;
     this.ppppk = 1000;
   }
