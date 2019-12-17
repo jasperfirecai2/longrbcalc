@@ -1,0 +1,32 @@
+{
+  "name": "longrbcalc",
+  "version": "1.0.0",
+  "dependencies": {
+    "mithril": "^2.0.4"
+  },
+  "description": "Long rebirth calculator for NGU idle",
+  "main": "app/main.js",
+  "directories": {
+    "doc": "doc"
+  },
+  "devDependencies": {
+    "@babel/cli": "^7.7.5",
+    "@babel/core": "^7.0.0",
+    "@babel/plugin-transform-react-jsx": "^7.7.4",
+    "@babel/preset-env": "^7.7.6"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/jasperfirecai2/longrbcalc.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/jasperfirecai2/longrbcalc/issues"
+  },
+  "homepage": "https://github.com/jasperfirecai2/longrbcalc#readme",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  }
+}

@@ -6,3 +6,4 @@
 .gitattributes
 .editorconfig
 node_modules
+output
