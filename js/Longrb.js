@@ -30,46 +30,92 @@ export class Longrb
     this.ppppk = 1000;
   }
 
+  get_vars() {
+    return {
+      "largestboost": this.largestboost,
+      "boostvalue": this.boostvalue,
+      "adv_perk": this.adv_perk,
+      "adv_perk_levels": this.adv_perk_levels,
+      "current": this.current,
+      "basetoughness": this.basetoughness,
+      "respawnpercent": this.respawnpercent,
+      "nguygg": this.nguygg,
+      "fruitquirk": this.fruitquirk,
+      "bps": this.bps,
+      "ironpillsucks1": this.ironpillsucks1,
+      "ironpillsucks2": this.ironpillsucks2,
+      "currentNGUa": this.currentNGUa,
+      "currenteNGUa": this.currenteNGUa,
+      "currentNGUb": this.currentNGUb,
+      "currenteNGUb": this.currenteNGUb,
+      "subtotal": this.subtotal,
+      "goalmulti": this.goalmulti,
+      "ppppk": this.ppppk
+    };
+  }
+
+  set_vars(vars) {
+    this.largestboost = parseInt(vars['largestboost']);
+    this.boostvalue = parseFloat(vars['boostvalue']);
+    this.adv_perk = parseInt(vars['adv_perk']);
+    this.adv_perk_levels = parseInt(vars['adv_perk_levels']);
+    this.current = parseInt(vars['current']);
+    this.basetoughness = parseInt(vars['basetoughness']);
+    this.respawnpercent = parseFloat(vars['respawnpercent']);
+    this.nguygg = parseFloat(vars['nguygg']);
+    this.fruitquirk = parseInt(vars['fruitquirk']);
+    this.bps = parseInt(vars['bps']);
+    this.ironpillsucks1 = parseInt(vars['ironpillsucks1']);
+    this.ironpillsucks2 = parseInt(vars['ironpillsucks2']);
+    this.currentNGUa = parseInt(vars['currentNGUa']);
+    this.currenteNGUa = parseInt(vars['currenteNGUa']);
+    this.currentNGUb = parseInt(vars['currentNGUb']);
+    this.currenteNGUb = parseInt(vars['currenteNGUb']);
+    this.subtotal = parseInt(vars['subtotal']);
+    this.goalmulti = parseFloat(vars['goalmulti']);
+    this.ppppk = parseInt(vars['ppppk']);
+  }
+
   /**
    * @return {number}
    */
   ATstats(x) {
-    return 1 + Math.pow(x, 0.4) * 10;
+    return 1 + Math.pow(x, 0.4) / 10;
   }
 
   /**
    * @return {number}
    */
   BEARdstats(x) {
-    return 1 + Math.pow(x, 0.3) * 125.9 * 10
+    return 1 + Math.pow(x, 0.3) * 125.9 / 10
   }
 
   /**
    * @return {number}
    */
   NGUastats(x) {
-    return 1 + Math.sqrt(x) * 3.17
+    return 1 + Math.sqrt(x) * 3.17 / 100
   }
 
   /**
    * @return {number}
    */
   eNGUastats(x) {
-    return 1 + Math.pow(x, 0.25) * 8.8945
+    return 1 + Math.pow(x, 0.25) * 8.8945 / 100
   }
 
   /**
    * @return {number}
    */
   NGUbstats(x) {
-    return 1 + Math.pow(x, 0.4) * 1.894
+    return 1 + Math.pow(x, 0.4) * 1.894 / 100
   }
 
   /**
    * @return {number}
    */
   eNGUbstats(x) {
-    return 1 + Math.pow(x, 0.25) * 2.6675
+    return 1 + Math.pow(x, 0.25) * 2.6675 / 100
   }
 
   cubegains(value, time_in_pod, recycling, respawn, cube_wish = 0, base_cube_ratio = 0.01, idle_cd = 0.8) {
@@ -126,7 +172,7 @@ export class Longrb
 
     let fruit;
     let ironstats;
-    for (let i = this.current + 50; i < (this.current * 100); i += 50 * 60) {
+    for (let i = this.current + 50; i < 50 * 60 * 60 * 24 * 100 + this.current; i += 50 * 60) {
       let start = i - this.current;
       if (start / 60 / 60 / 11.5 >= 1) {
         let harvests = Math.floor(start / 60 / (60 - this.fruitquirk) / 24);
@@ -143,7 +189,7 @@ export class Longrb
         ironstats = 0.0;
       }
       let cube = this.cubegains(this.boostvalue, ((i - this.current) / 50), recycling, respawn, 20, 0.02);
-      let perks = this.ppgains(((i - this.current) / 50), respawn);
+      let perks = this.ppgains(((start) / 50), respawn);
       let statincrease = (this.subtotal + fruit + ironstats + cube) / this.subtotal;
       let ttemp = this.ATstats(i) *
         this.BEARdstats(i) *
@@ -173,5 +219,6 @@ export class Longrb
         return ttime;
       }
     }
+    return "too long";
   }
 }
