@@ -23,11 +23,30 @@ test.set_vars(vars);
 
 let root = document.getElementById("container");
 
+// thank you @osban
+let app = () => {
+  const values = [
+    {id: 1, name: 'foo', placeholder: 'foo'},
+    {id: 2, name: 'bar', placeholder: 'bar'},
+    {id: 3, name: 'baz', placeholder: 'baz'}
+  ];
+  return {
+    view: () =>
+      m('form',
+        values.map(({id,name,placeholder}) =>
+          m('p',
+            m('input', {id,name,placeholder}, 'click')
+          )
+        )
+      )
+  }
+};
+
+
 function onInputt(event) {
   if ((event.target.min <= event.target.value <= event.target.max)) {
-    let id = event.target.id;
-    console.log(id);
-    vars[id] = event.target.value;
+    let name = event.target.name;
+    vars[name] = event.target.value;
     //console.log(vars);
     //console.log(test.get_vars());
     //console.log(test.current);
@@ -37,6 +56,99 @@ function onInputt(event) {
   }
 
 }
+
+function inputobjects(key, index) {
+  let values = [];
+  console.log(key + " " + index);
+  if (key.includes('NGU')) {
+    return {
+      id: index,
+      name: key,
+      placeholder: key,
+      className: "form-control",
+      max: 1000000000,
+      min: 1000000,
+      type: "number",
+      step: 1,
+      required: false
+    }
+
+  } else if (key === "current") {
+    return {
+      id: index,
+      name: key,
+      placeholder: key,
+      className: "form-control",
+      max: 200000000,
+      min: 100000,
+      type: "number",
+      step: 50,
+      required: true,
+    }
+  } else if (key === "goalmulti") {
+    return {
+      id: index,
+      name: key,
+      placeholder: key,
+      className: "form-control",
+      max: 100,
+      min: 1.1,
+      type: "number",
+      step: 0.01,
+      required: true,
+    }
+  } else {
+    return {
+      id: index,
+      name: key,
+      placeholder: key,
+      className: "form-control",
+      max: 1000000,
+      min: 1,
+      type: "number",
+      step: 0.01,
+      required: false,
+    }
+  }
+}
+
+// thank you @osban
+let inputs = () => {
+  let values = [];
+  Object.keys(vars).forEach((key, index) =>  values.push( inputobjects(key, index)));
+  return {
+    view: () =>
+      m("form", {
+        className: "form needs-validation",
+        method: "POST",
+        novalidate: "",
+        onsubmit: function(event) {
+          event.preventDefault();
+          if (!event.target.checkValidity()) {
+            return false
+          }
+          submitForm(event);
+          return false
+        }
+      },
+        m("div", {
+          className: "form-row"
+        },
+          values.map(({id,name,placeholder,className,max,min,type,step,required}) =>
+            m("div", {
+              className: "col-md-12 col-lg-6"
+            },
+              m('input', {id,name,placeholder,min,max,type,step,required,className})
+            )
+          ),
+            m("button", {
+            className: "btn btn-info",
+              type: "submit"
+          }, "Submit")
+        )
+      )
+  }
+};
 
 function submitForm(event) {
   console.log(event);
@@ -48,12 +160,16 @@ function submitForm(event) {
 let form = {
   view: function view() {
     return m("main", [m("form", {
-      className: "form",
-      action: "",
+      className: "form needs-validation",
       method: "POST",
+      novalidate: "",
       onsubmit: function(event) {
+        event.preventDefault();
+        if (!event.target.checkValidity()) {
+          return false
+        }
         submitForm(event);
-        return false;
+        return false
       }
     }, m("div", {
       className: "form-row"
@@ -117,7 +233,7 @@ let Home = {
         className: "card-header"
       }, "Inputs"), m("div", {
         className: "card-body"
-      }, m(form)
+      }, m(inputs)
         ))))]);
   }
 };
