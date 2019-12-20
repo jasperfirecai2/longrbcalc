@@ -70,7 +70,7 @@ function inputobjects(key, index) {
       min: 1000000,
       type: "number",
       step: 1,
-      required: false
+      required: true
     }
 
   } else if (key === "current") {
@@ -138,6 +138,10 @@ let inputs = () => {
             m("div", {
               className: "col-md-12 col-lg-6"
             },
+              m("label", {
+                  htmlFor: id
+                }, name
+              ),
               m('input', {id,name,placeholder,min,max,type,step,required,className})
             )
           ),
@@ -154,7 +158,7 @@ function submitForm(event) {
   console.log(event);
   console.log(vars);
   test.set_vars(vars);
-  console.log(test.run());
+  alert(`you would need ${test.run()} days (estimate)`);
 }
 
 let form = {
