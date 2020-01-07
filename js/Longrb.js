@@ -121,7 +121,7 @@ export class Longrb
   cubegains(value, time_in_pod, recycling, respawn, cube_wish = 0, base_cube_ratio = 0.01, idle_cd = 0.8) {
     let cube_ratio = base_cube_ratio * (1 + cube_wish * 0.05);
     let cube_equivalent = value * recycling * cube_ratio;
-    return time_in_pod / (respawn + idle_cd) * 0.14 * cube_equivalent;
+    return Math.floor(time_in_pod / (respawn + idle_cd) * 0.14) * cube_equivalent;
   }
 
   fruitgains(firstHarvest = 1, yggyield_equip = 1.63, tier = 24, blueheart = 1.1, poop = 1.5) {
@@ -144,7 +144,7 @@ export class Longrb
   }
 
   ppgains(time_in_pod, respawn, idle_cd = 0.8) {
-    let pp = Math.floor(time_in_pod / (respawn + idle_cd) * this.ppppk / 1000000);
+    let pp = Math.floor(time_in_pod / (respawn + idle_cd)) * this.ppppk / 1000000;
     let perklevels = Math.floor(pp / this.adv_perks[parseInt(this.adv_perk) - 1][0]);
     return this.adv_perk_current_bonus + this.adv_perks[parseInt(this.adv_perk) - 1][1] * perklevels;
   }

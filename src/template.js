@@ -20,10 +20,19 @@ let Help = {
       <div className="col-12">
         <div className="card">
           <div className="card-header">
-            Inputs
+            Help
           </div>
           <div className="card-body">
-            This is a help page
+            <h2 className="card-title">
+              Welcome to this very barebones long rb calculator
+            </h2>
+            Warning: this script currently does not account for a few select features, and basically wont be very useful in sadistic.
+            It is mostly intended to be used for the last push of exile versions to get to sad.
+            <p>
+              <b>THIS SCRIPT CURRENTLY DOES NOT CACHE YOUR INPUTS WHEN YOU REFRESH, RE-OPEN, OR GO TO THE HELP PAGE</b>
+            </p>
+            There also appears to be a bug causing form validation to not visually show when you navigate different pages.
+            Yes I know my code sucks. <a href="https://github.com/jasperfirecai2/longrbcalc/issues/new">Complain about it on github</a>
           </div>
         </div>
       </div>
@@ -53,7 +62,14 @@ let form = {
     ])
   )
 };
-
+let output = {
+  view: () => (
+    m("main", [
+      <p id="Time">Time needed: <b>0 days</b></p>
+    ]
+    )
+  )
+};
 m.route(root, "/home", {
   "/home": Home,
   "/help": Help
