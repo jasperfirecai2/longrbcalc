@@ -288,8 +288,8 @@ let Help = {
   }
 };
 
-
-m.route(root, "/home", {
-  "/home": Home,
-  "/help": Help
-});
+m.mount(root, Home);
+//m.route(root, "/home", {
+//  "/home": Home,
+//  "/help": Help
+//});
