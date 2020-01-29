@@ -221,9 +221,7 @@ export class Longrb
           fruit = this.fruitgains(basetoughness) + (harvests - 1) * this.fruitgains(basetoughness, 1);
         }
           ironstats = this.ironpill() * ironpills;
-          if (basetoughness - (harvests * fruit + ironstats * ironpills) !== this.basetoughness && (ironpills + harvests) > 0) {
-            basetoughness = basetoughness + fruit + ironstats;
-          }
+          basetoughness = this.basetoughness + fruit + ironstats;
 
       } else {
         fruit = 0;
