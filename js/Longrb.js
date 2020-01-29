@@ -14,27 +14,27 @@ export class Longrb
     this.adv_perk = 1;
     this.level_perks = true;
     this.adv_perk_levels = 0;
-    this.current = 100; //current
-    this.basetoughness = 1; //toughness
-    this.respawnpercent = 20;
-    this.nguygg = 1;
+    this.current = 100000; //current
+    this.basetoughness = 100000; //toughness
+    this.respawnpercent = 40;
+    this.nguygg = 100;
     this.fruitquirk = 0;
-    this.bps = 1;
+    this.bps = 0;
     this.ironpillsucks1 = 1;
     this.ironpillsucks2 = 1;
-    this.currentNGUa = 0;
-    this.currenteNGUa = 0;
-    this.currentNGUb = 0;
-    this.currenteNGUb = 0;
+    this.currentNGUa = 1000000;
+    this.currenteNGUa = 1000000;
+    this.currentNGUb = 1000000;
+    this.currenteNGUb = 1000000;
     this.subtotal = 1000000000;
     this.goalmulti = 2;
-    this.ppppk = 1000;
+    this.ppppk = 100000;
     this.bbeNGUa = true;
     this.bbeNGUb = true;
     this.evil_normal_quirk = true;
     this.doironpill = true;
     this.eatfruit = false;
-    this.pre_cube = 1000000000;
+    this.pre_cube = 500000000;
   }
 
   get_vars() {

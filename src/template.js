@@ -29,9 +29,8 @@ let Help = {
             Warning: this script currently does not account for a few select features, and basically wont be very useful in sadistic.
             It is mostly intended to be used for the last push of exile versions to get to sad.
             <p>
-              <b>THIS SCRIPT CURRENTLY DOES NOT CACHE YOUR INPUTS WHEN YOU REFRESH, RE-OPEN, OR GO TO THE HELP PAGE</b>
+              <b>THIS SCRIPT CURRENTLY DOES NOT CACHE YOUR INPUTS WHEN YOU REFRESH</b>
             </p>
-            There also appears to be a bug causing form validation to not visually show when you navigate different pages.
             Yes I know my code sucks. <a href="https://github.com/jasperfirecai2/longrbcalc/issues/new">Complain about it on github</a>
           </div>
         </div>
