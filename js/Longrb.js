@@ -162,10 +162,10 @@ export class Longrb
     return Math.floor(time_in_pod / (respawn + idle_cd) * 0.14) * cube_equivalent;
   }
 
-  fruitgains(firstHarvest = 1.5, yggyield_equip = 1.63, tier = 24, blueheart = 1.1, poop = 1.5) {
+  fruitgains(basetoughness, firstHarvest = 1.5, yggyield_equip = 1.63, tier = 24, blueheart = 1.1, poop = 1.5) {
     return Math.ceil(Math.pow(tier, 1.5)) *
       (poop * blueheart) *
-      Math.pow(this.basetoughness, 0.2) *
+      Math.pow(basetoughness, 0.2) *
       (this.nguygg/100) *
       yggyield_equip * firstHarvest;
   }
@@ -216,9 +216,9 @@ export class Longrb
         let harvests = this.eatfruit ? Math.floor(start / 60 / (60 - this.fruitquirk) / 24) : 0;
         let ironpills = this.doironpill ? Math.floor(start / 60 / 60 / 11.5) : 0;
         if (harvests === 1) {
-          fruit = this.fruitgains();
+          fruit = this.fruitgains(basetoughness);
         } else {
-          fruit = this.fruitgains() + (harvests - 1) * this.fruitgains(1);
+          fruit = this.fruitgains(basetoughness) + (harvests - 1) * this.fruitgains(basetoughness, 1);
         }
           ironstats = this.ironpill() * ironpills;
           if (basetoughness - (harvests * fruit + ironstats * ironpills) !== this.basetoughness && (ironpills + harvests) > 0) {
