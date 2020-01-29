@@ -2,25 +2,6 @@ import {Longrb} from "./Longrb.js";
 let test = new Longrb();
 let vars = test.get_vars();
 let result = 0;
-vars['subtotal'] = 14785000000;
-vars['basetoughness'] = 873034000;
-vars['nguygg'] = 78.9828;
-vars['fruitquirk'] = 3;
-vars['boostvalue'] = 639678.7;
-vars['largestboost'] = 5000;
-vars['respawnpercent'] = 19.95;
-vars['current'] = 30506000;
-vars['currentNGUa'] = 534081000;
-vars['currenteNGUa'] = 377627000;
-vars['currentNGUb'] = 325233000;
-vars['currenteNGUb'] = 262085000;
-vars['bps'] = 2.549E+12;
-vars['ppppk'] = 4894502;
-vars['adv_perk'] = 3;
-vars['adv_perk_levels'] = 155;
-vars['ironpillsucks1'] = 26;
-vars['ironpillsucks2'] = 4;
-test.set_vars(vars);
 
 let root = document.getElementById("container");
 
@@ -47,7 +28,12 @@ let app = () => {
 function onInputt(event) {
   if ((event.target.min <= event.target.value <= event.target.max)) {
     let name = event.target.name;
-    vars[name] = event.target.value;
+    if (event.target.type === "checkbox") {
+      vars[name] = event.target.checked;
+    } else {
+      vars[name] = event.target.value;
+    }
+
     //console.log(vars);
     //console.log(test.get_vars());
     //console.log(test.current);
@@ -61,71 +47,73 @@ function onInputt(event) {
 function inputobjects(key, index) {
   let values = [];
   //console.log(key + " " + index);
+  let ret = {
+    id: index,
+    name: key,
+    placeholder: key,
+    type: "number",
+    step: 1,
+    className: "form-control",
+    required: true,
+    title: key
+  };
   if (key.includes('NGU')) {
-    return {
-      id: index,
-      name: key,
-      placeholder: key,
-      className: "form-control",
-      max: 1000000000,
-      min: 1000000,
-      type: "number",
-      step: 1,
-      required: true,
-      defaultValue: 1000000
-    }
-
-  } else if (key === "current") {
-    return {
-      id: index,
-      name: key,
-      placeholder: key,
-      className: "form-control",
-      max: 200000000,
-      min: 100000,
-      type: "number",
-      step: 50,
-      required: true,
-      defaultValue: 100000
-    }
-  } else if (key === "goalmulti") {
-    return {
-      id: index,
-      name: key,
-      placeholder: key,
-      className: "form-control",
-      max: 100,
-      min: 1.1,
-      type: "number",
-      step: 0.01,
-      required: true,
-      defaultValue: 2
-    }
-  } else if (key.includes("ironpill")) {
-    return {
-      id: index,
-      name: key,
-      placeholder: key,
-      className: "form-control",
-      max: (key === "ironpillsucks1" ? 26 : 4),
-      min: 1,
-      type: "number",
-      step: 1,
-      required: true,
-      defaultValue: 1
-    }
-  } else {
-    return {
-      id: index,
-      name: key,
-      placeholder: key,
-      className: "form-control",
-      min: 0,
-      type: "number",
-      step: 0.01,
-      required: false,
-    }
+    ret.max =  1000000000;
+    ret.min = 1000000;
+    ret.defaultValue = 1000000;
+    ret.title = "The current lvls in the respective NGU"
   }
+  else if (key.includes("percent")) {
+    ret.max= key.includes("respawn") ? 100: 10000000;
+    ret.min= 1;
+    ret.defaultValue= 100;
+    ret.step = 0.01;
+    ret.title = `The percentage that your current ${key.includes("respawn") ? "respawn in stat breakdowns" : "NGU ygg"}  shows`
+  }
+  else if (key === "currentATlvls") {
+    ret.max= 200000000;
+    ret.min= 100000;
+    ret.defaultValue= 100000;
+    ret.title = "The current lvls in AT/BEARd. Assuming you BB em both and they are around the same level"
+
+  } else if (key === "goalmulti") {
+    ret.max = 100;
+    ret.min = 1.1;
+    ret.step = 0.01;
+    ret.defaultValue = 2;
+    ret.title = "How much bgger your stats need to be to reach your goal"
+  } else if (key.includes("ironpill")) {
+      ret.max= (key.includes("1") ? 26 : 4);
+      ret.min= 1;
+      ret.step= (key.includes("1") ? 5 : 1);
+      ret.defaultValue= 1;
+      ret.title = "the current MULTIPLIER for the respective iron pill perk"
+  } else if (key.includes("push")) {
+    ret.type= "checkbox";
+    ret.defaultChecked = "true";
+    ret.required = false;
+  }
+  else if (key.includes("cast")) {
+    ret.type= "checkbox";
+    ret.defaultChecked = "true";
+    ret.required = false;
+  }
+  else if (key.includes("eat")) {
+    ret.type= "checkbox";
+    ret.defaultChecked = "true";
+    ret.required = false;
+  }
+  else if (key.includes("evil->normal")) {
+    ret.type= "checkbox";
+    ret.defaultChecked = "true";
+    ret.required = false;
+  }
+  else if (key.includes("BB")) {
+    ret.type= "checkbox";
+    ret.defaultChecked = "true";
+    ret.required = false;
+  }
+  return ret;
 }
 
 // thank you @osban
@@ -150,7 +138,7 @@ let inputs = () => {
         m("div", {
           className: "form-row"
         },
-          values.map(({id,name,placeholder,className,max,min,type,step,required, defaultValue}) =>
+          values.map(({id,name,placeholder,className,max,min,type,step,required, defaultChecked, title, defaultValue}) =>
             m("div", {
               className: "col-sm-12 col-md-6 col-lg-3"
             },
@@ -158,7 +146,7 @@ let inputs = () => {
                   htmlFor: id
                 }, name
               ),
-              m('input', {id,name,placeholder,min,max,type,step,required,className, defaultValue})
+              m('input', {id,name,placeholder,min,max,type,step,required,className,defaultValue,defaultChecked,title})
             )
           ),
             m("button", {
@@ -174,7 +162,10 @@ function submitForm(event) {
   let elements = event.target.elements;
   console.log(event);
   for(let i = 0; i < elements.length; i++) {
-    if (elements[i].value !== "") {
+    if (elements[i].type === "checkbox") {
+      vars[elements[i].name] = elements[i].checked;
+    }
+    else if (elements[i].value !== "") {
       vars[elements[i].name] = elements[i].valueAsNumber;
     }
 

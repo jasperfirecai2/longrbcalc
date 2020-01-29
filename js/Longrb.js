@@ -12,6 +12,7 @@ export class Longrb
     this.base_blood.reverse();
     this.adv_perks = [[100, 0.001], [1000, 0.001], [10000, 0.0005], [100000, 0.0005], [1000000, 0.0005]];
     this.adv_perk = 1;
+    this.level_perks = true;
     this.adv_perk_levels = 0;
     this.current = 100; //current
     this.basetoughness = 1; //toughness
@@ -28,52 +29,73 @@ export class Longrb
     this.subtotal = 1000000000;
     this.goalmulti = 2;
     this.ppppk = 1000;
+    this.bbeNGUa = true;
+    this.bbeNGUb = true;
+    this.evil_normal_quirk = true;
+    this.doironpill = true;
+    this.eatfruit = false;
+    this.pre_cube = 1000000000;
   }
 
   get_vars() {
     return {
       "largestboost": this.largestboost,
       "boostvalue": this.boostvalue,
-      "adv_perk": this.adv_perk,
-      "adv_perk_levels": this.adv_perk_levels,
-      "current": this.current,
+      "adv_perk_tier": this.adv_perk,
+      "adv_perk_current_levels": this.adv_perk_levels,
+      "push_adv_perk": this.level_perks,
+      "currentATlvls": this.current,
       "basetoughness": this.basetoughness,
       "respawnpercent": this.respawnpercent,
-      "nguygg": this.nguygg,
-      "fruitquirk": this.fruitquirk,
+      "nguyggpercent": this.nguygg,
+      "fruitquirklevels": this.fruitquirk,
       "bps": this.bps,
-      "ironpillsucks1": this.ironpillsucks1,
-      "ironpillsucks2": this.ironpillsucks2,
-      "currentNGUa": this.currentNGUa,
-      "currenteNGUa": this.currenteNGUa,
-      "currentNGUb": this.currentNGUb,
-      "currenteNGUb": this.currenteNGUb,
-      "subtotal": this.subtotal,
+      "ironpillsucks1multi": this.ironpillsucks1,
+      "ironpillsucks2multi": this.ironpillsucks2,
+      "currentNGUalevels": this.currentNGUa,
+      "currenteNGUalevels": this.currenteNGUa,
+      "currentNGUblevels": this.currentNGUb,
+      "currenteNGUblevels": this.currenteNGUb,
+      "subtotalP+T": this.subtotal,
+      "subtotal_Pre-cube": this.pre_cube,
       "goalmulti": this.goalmulti,
-      "ppppk": this.ppppk
+      "pp progress per kill": this.ppppk,
+      "evil->normal quirk": this.evil_normal_quirk,
+      "BB evil ngu adv a": this.bbeNGUa,
+      "BB evil ngu adv b": this.bbeNGUb,
+      "cast iron pill": this.doironpill,
+      "eat adv fruit": this.eatfruit
     };
   }
 
   set_vars(vars) {
     this.largestboost = parseInt(vars['largestboost']);
     this.boostvalue = parseFloat(vars['boostvalue']);
-    this.adv_perk = parseInt(vars['adv_perk']);
-    this.adv_perk_levels = parseInt(vars['adv_perk_levels']);
-    this.current = parseInt(vars['current']);
+    this.adv_perk = parseInt(vars['adv_perk_tier']);
+    this.adv_perk_levels = parseInt(vars['adv_perk_current_levels']);
+    this.level_perks = vars['push_adv_perk'];
+    this.current = parseInt(vars['currentATlvls']);
     this.basetoughness = parseInt(vars['basetoughness']);
     this.respawnpercent = parseFloat(vars['respawnpercent']);
-    this.nguygg = parseFloat(vars['nguygg']);
-    this.fruitquirk = parseInt(vars['fruitquirk']);
+    this.nguygg = parseFloat(vars['nguyggpercent']);
+    this.fruitquirk = parseInt(vars['fruitquirklevels']);
     this.bps = parseInt(vars['bps']);
-    this.ironpillsucks1 = parseInt(vars['ironpillsucks1']);
-    this.ironpillsucks2 = parseInt(vars['ironpillsucks2']);
-    this.currentNGUa = parseInt(vars['currentNGUa']);
-    this.currenteNGUa = parseInt(vars['currenteNGUa']);
-    this.currentNGUb = parseInt(vars['currentNGUb']);
-    this.currenteNGUb = parseInt(vars['currenteNGUb']);
-    this.subtotal = parseInt(vars['subtotal']);
+    this.ironpillsucks1 = parseInt(vars['ironpillsucks1multi']);
+    this.ironpillsucks2 = parseInt(vars['ironpillsucks2multi']);
+    this.currentNGUa = parseInt(vars['currentNGUalevels']);
+    this.currenteNGUa = parseInt(vars['currenteNGUalevels']);
+    this.currentNGUb = parseInt(vars['currentNGUblevels']);
+    this.currenteNGUb = parseInt(vars['currenteNGUblevels']);
+    this.subtotal = parseInt(vars['subtotalP+T']);
+    this.pre_cube = parseInt(vars['subtotal_Pre-cube']);
     this.goalmulti = parseFloat(vars['goalmulti']);
-    this.ppppk = parseInt(vars['ppppk']);
+    this.ppppk = parseInt(vars['pp progress per kill']);
+    this.bbeNGUa = vars["BB evil ngu adv a"];
+    this.bbeNGUb = vars["BB evil ngu adv b"];
+    this.evil_normal_quirk = vars["evil->normal quirk"];
+    this.doironpill = vars["cast iron pill"];
+    this.eatfruit = vars["eat adv fruit"];
+    this.pre_cube = parseInt(vars["subtotal_Pre-cube"]);
   }
 
   /**
@@ -94,6 +116,9 @@ export class Longrb
    * @return {number}
    */
   NGUastats(x) {
+    if (!this.evil_normal_quirk && this.bbeNGUa) {
+      return 1;
+    }
     return 1 + Math.sqrt(x) * 3.17 / 100
   }
 
@@ -101,6 +126,9 @@ export class Longrb
    * @return {number}
    */
   eNGUastats(x) {
+    if (!this.bbeNGUa) {
+      return 1;
+    }
     return 1 + Math.pow(x, 0.25) * 8.8945 / 100
   }
 
@@ -108,6 +136,9 @@ export class Longrb
    * @return {number}
    */
   NGUbstats(x) {
+    if (!this.evil_normal_quirk && this.bbeNGUb) {
+      return 1;
+    }
     return 1 + Math.pow(x, 0.4) * 1.894 / 100
   }
 
@@ -115,6 +146,9 @@ export class Longrb
    * @return {number}
    */
   eNGUbstats(x) {
+    if (!this.bbeNGUb) {
+      return 1;
+    }
     return 1 + Math.pow(x, 0.25) * 2.6675 / 100
   }
 
@@ -128,7 +162,7 @@ export class Longrb
     return Math.ceil(Math.pow(tier, 1.5)) *
       (poop * blueheart) *
       Math.pow(this.basetoughness, 0.2) *
-      this.nguygg *
+      (this.nguygg/100) *
       yggyield_equip * firstHarvest;
   }
 
@@ -168,29 +202,37 @@ export class Longrb
       this.eNGUbstats(this.currenteNGUb) *
       this.NGUbstats(this.currentNGUb) *
       this.adv_perk_current_bonus;
-
+    let cubevalue = this.subtotal-this.pre_cube;
 
     let fruit;
     let ironstats;
     for (let i = this.current + 50; i < 50 * 60 * 60 * 24 * 100 + this.current; i += 50 * 60) {
       let start = i - this.current;
       if (start / 60 / 60 / 11.5 >= 1) {
-        let harvests = Math.floor(start / 60 / (60 - this.fruitquirk) / 24);
-        let ironpills = Math.floor(start / 60 / 60 / 11.5);
+        let harvests = this.eatfruit ? Math.floor(start / 60 / (60 - this.fruitquirk) / 24) : 0;
+        let ironpills = this.doironpill ? Math.floor(start / 60 / 60 / 11.5) : 0;
         if (harvests === 1) {
           fruit = this.fruitgains();
         } else {
           fruit = this.fruitgains() + (harvests - 1) * this.fruitgains(0);
           ironstats = this.ironpill() * ironpills;
-          basetoughness = basetoughness + fruit + ironstats;
+          if (basetoughness - (harvests * fruit + ironstats * ironpills) !== this.basetoughness && (ironpills + harvests) > 0) {
+            basetoughness = basetoughness + fruit + ironstats;
+          }
+
         }
       } else {
         fruit = 0;
         ironstats = 0.0;
       }
       let cube = this.cubegains(this.boostvalue, ((i - this.current) / 50), recycling, respawn, 20, 0.02);
-      let perks = this.ppgains(((start) / 50), respawn);
-      let statincrease = (this.subtotal + fruit + ironstats + cube) / this.subtotal;
+      let perks = this.level_perks ? this.ppgains(((start) / 50), respawn) : this.adv_perk_current_bonus;
+      let statincrease = this.pre_cube + fruit + ironstats;
+      if ((cubevalue + cube) > statincrease) {
+        let leftover = cubevalue + cube - statincrease;
+        cube = cube - leftover + Math.sqrt(leftover);
+      }
+      statincrease = (this.subtotal + fruit + ironstats + cube) / this.subtotal;
       let ttemp = this.ATstats(i) *
         this.BEARdstats(i) *
         this.NGUastats(start + this.currentNGUa) *
