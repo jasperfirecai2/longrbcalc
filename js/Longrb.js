@@ -116,6 +116,7 @@ export class Longrb
    * @return {number}
    */
   NGUastats(x) {
+    if (x > 1e9) {x = 1e9}
     if (!this.evil_normal_quirk && this.bbeNGUa) {
       return 1;
     }
@@ -126,6 +127,7 @@ export class Longrb
    * @return {number}
    */
   eNGUastats(x) {
+    if (x > 1e9) {x = 1e9}
     if (!this.bbeNGUa) {
       return 1;
     }
@@ -136,6 +138,7 @@ export class Longrb
    * @return {number}
    */
   NGUbstats(x) {
+    if (x > 1e9) {x = 1e9}
     if (!this.evil_normal_quirk && this.bbeNGUb) {
       return 1;
     }
@@ -146,6 +149,7 @@ export class Longrb
    * @return {number}
    */
   eNGUbstats(x) {
+    if (x > 1e9) {x = 1e9}
     if (!this.bbeNGUb) {
       return 1;
     }
@@ -158,7 +162,7 @@ export class Longrb
     return Math.floor(time_in_pod / (respawn + idle_cd) * 0.14) * cube_equivalent;
   }
 
-  fruitgains(firstHarvest = 1, yggyield_equip = 1.63, tier = 24, blueheart = 1.1, poop = 1.5) {
+  fruitgains(firstHarvest = 1.5, yggyield_equip = 1.63, tier = 24, blueheart = 1.1, poop = 1.5) {
     return Math.ceil(Math.pow(tier, 1.5)) *
       (poop * blueheart) *
       Math.pow(this.basetoughness, 0.2) *
@@ -214,13 +218,13 @@ export class Longrb
         if (harvests === 1) {
           fruit = this.fruitgains();
         } else {
-          fruit = this.fruitgains() + (harvests - 1) * this.fruitgains(0);
+          fruit = this.fruitgains() + (harvests - 1) * this.fruitgains(1);
+        }
           ironstats = this.ironpill() * ironpills;
           if (basetoughness - (harvests * fruit + ironstats * ironpills) !== this.basetoughness && (ironpills + harvests) > 0) {
             basetoughness = basetoughness + fruit + ironstats;
           }
 
-        }
       } else {
         fruit = 0;
         ironstats = 0.0;
@@ -258,6 +262,7 @@ export class Longrb
         //   'Ngu (a, b, evil, normal)\n' +
         //   'AT/BEARd levels\n'
         // );
+        console.log(`your amazing fruit of adventure yielded you ${fruit} base stats!`);
         return ttime;
       }
     }
