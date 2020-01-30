@@ -227,7 +227,7 @@ export class Longrb
             basetoughness += this.fruitgains(basetoughness, harvests > 1 ? 1 : 1.5);
           } if (ironpills > counters[1]) {
             counters[1] = ironpills;
-            basetoughness += this.ironpill / ironpills;
+            basetoughness += this.ironpill();
           }
 
       } else {
