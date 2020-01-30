@@ -208,10 +208,11 @@ export class Longrb
     let fruit;
     let ironstats;
     let counters = [0, 0];
+    let harvests;
     for (let i = this.current + 50; i < 50 * 60 * 60 * 24 * 100 + this.current; i += 50 * 60) {
       let start = i - this.current;
       if (start / 50 / 60 / 60 / 11.5 >= 1) {
-        let harvests = this.eatfruit ? Math.floor(start / 50 / 60 / (60 - this.fruitquirk) / 24) : 0;
+        harvests = this.eatfruit ? Math.floor(start / 50 / 60 / (60 - this.fruitquirk) / 24) : 0;
         let ironpills = this.doironpill ? Math.floor(start / 50 / 60 / 60 / 11.5) : 0;
         if (harvests === 1) {
           fruit = this.fruitgains(basetoughness);
@@ -264,7 +265,7 @@ export class Longrb
         //   'Ngu (a, b, evil, normal)\n' +
         //   'AT/BEARd levels\n'
         // );
-        if (this.eatfruit) {
+        if (this.eatfruit && harvests > 0) {
           console.log(`your amazing fruit of adventure yielded you ${fruit} base stats!`);
         }
         return ttime;

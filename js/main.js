@@ -66,28 +66,31 @@ let app = () => {
       )
   }
 };
+let todisable = [];
+function disablefields(name, id) {
+  if (name.includes('BB') || name.includes('->')) {
+    // this can probably be cleaner but it works
+    let root_id = parseInt(document.getElementsByName('evil->normal quirk?')[0].id);
+    document.getElementById((root_id + 1).toString()).disabled = vars['evil->normal quirk?'] ? false : vars['can BB evil ngu adv a'];
+    document.getElementById((root_id + 3).toString()).disabled = !vars['can BB evil ngu adv a'];
+    document.getElementById((root_id + 4).toString()).disabled = vars['evil->normal quirk?'] ? false : vars['can BB evil ngu adv b'];
+    document.getElementById((root_id + 6).toString()).disabled = !vars['can BB evil ngu adv b'];
+  } else {
+    for (let i = id + 1; i <= id + 3; i++) {
+      document.getElementById(i.toString()).disabled = !vars[name];
+    }
 
+  }
+}
 
 function onInputt(event) {
   if ((event.target.min <= event.target.value <= event.target.max)) {
-    console.log(event);
+    //console.log(event);
     let name = event.target.name;
     let id = parseInt(event.target.id);
     if (event.target.type === "checkbox") {
       vars[name] = event.target.checked;
-      if (name.includes('BB') || name.includes('->')) {
-        // this can probably be cleaner but it works
-        let root_id = parseInt(document.getElementsByName('evil->normal quirk?')[0].id);
-        event.target.form.elements[root_id + 1].disabled = vars['evil->normal quirk?'] ? false : vars['can BB evil ngu adv a'];
-        event.target.form.elements[root_id + 3].disabled = !vars['can BB evil ngu adv a'];
-        event.target.form.elements[root_id + 4].disabled = vars['evil->normal quirk?'] ? false : vars['can BB evil ngu adv b'];
-        event.target.form.elements[root_id + 6].disabled = !vars['can BB evil ngu adv b'];
-      } else {
-        for (let i = id + 1; i <= id + 3; i++) {
-          event.target.form.elements[i].disabled = !vars[name];
-        }
-
-      }
+      disablefields(name, id);
     } else {
       vars[name] = event.target.value;
     }
@@ -104,7 +107,6 @@ function inputobjects(key, index) {
     type: "number",
     step: 1,
     className: "form-control",
-    defaultChecked: vars[key],
     defaultValue: vars[key],
     required: true,
     title: key,
@@ -148,6 +150,10 @@ function inputobjects(key, index) {
       ret.title = "the current MULTIPLIER for the respective iron pill perk"
   } else if (typeof(vars[key]) === "boolean") {
     ret.type= "checkbox";
+    ret.defaultChecked = vars[key];
+    if (!vars[key]) {
+      todisable.push([key, index])
+    }
     ret.required = false;
     ret.title = "Unchecking this box will have the script not calculate the related features and disables the related fields"
   } else if (key.includes('wish')) {
@@ -172,7 +178,7 @@ function submitForm(event) {
     }
 
   }
-  console.log(vars);
+  //console.log(vars);
   test.set_vars(vars);
   result = test.run();
 }
@@ -238,16 +244,20 @@ let form = {
 };
 
 
-let storage = {};
+//let storage = {};
 let Home = {
   oninit: vnode => {
     console.log("init");
     //init();
-    console.log(storage);
+    //console.log(storage);
   },
   oncreate: vnode => {
     console.log("create");
     addvalidation();
+    todisable.forEach(value => {
+      disablefields(value[0], value[1]);
+    });
+    todisable = [];
   },
   onupdate: vnode => {
     console.log("update");
