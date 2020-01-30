@@ -210,18 +210,25 @@ export class Longrb
 
     let fruit;
     let ironstats;
+    let counters[0, 0];
     for (let i = this.current + 50; i < 50 * 60 * 60 * 24 * 100 + this.current; i += 50 * 60) {
       let start = i - this.current;
-      if (start / 60 / 60 / 11.5 >= 1) {
-        let harvests = this.eatfruit ? Math.floor(start / 60 / (60 - this.fruitquirk) / 24) : 0;
-        let ironpills = this.doironpill ? Math.floor(start / 60 / 60 / 11.5) : 0;
+      if (start / 50 / 60 / 60 / 11.5 >= 1) {
+        let harvests = this.eatfruit ? Math.floor(start / 50 / 60 / (60 - this.fruitquirk) / 24) : 0;
+        let ironpills = this.doironpill ? Math.floor(start / 50 / 60 / 60 / 11.5) : 0;
         if (harvests === 1) {
           fruit = this.fruitgains(basetoughness);
-        } else {
+        } else if (harvests > 1) {
           fruit = this.fruitgains(basetoughness) + (harvests - 1) * this.fruitgains(basetoughness, 1);
         }
           ironstats = this.ironpill() * ironpills;
-          basetoughness = this.basetoughness + fruit + ironstats;
+          if (harvests > counters[0]) {
+            counters[0] = harvests;
+            basetoughness += this.fruitgains(basetoughness, harvests > 1 ? 1 : 1.5);
+          } if (ironpills > counters[1]) {
+            counters[1] = ironpills;
+            basetoughness += this.ironpill / ironpills;
+          }
 
       } else {
         fruit = 0;
