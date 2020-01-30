@@ -26,11 +26,16 @@ let Help = {
             <h2 className="card-title">
               Welcome to this very barebones long rb calculator
             </h2>
-            Warning: this script currently does not account for a few select features, and basically wont be very useful in sadistic.
+            Warning: this script currently does not account for a few select features, and basically wont be very useful outside evil.
             It is mostly intended to be used for the last push of exile versions to get to sad.
             <p>
               <b>THIS SCRIPT CURRENTLY DOES NOT CACHE YOUR INPUTS WHEN YOU REFRESH</b>
             </p>
+            Some notes about inputs:
+            <ul>
+              <li>If you BB only normal ngus, untick the evil-> quirk AND the BB evil ngu boxes</li>
+              <li>Resapwn percentage is the value from stat breakdown, not from just gear</li>
+            </ul>
             Yes I know my code sucks. <a href="https://github.com/jasperfirecai2/longrbcalc/issues/new">Complain about it on github</a>
           </div>
         </div>

@@ -70,14 +70,28 @@ let app = () => {
 
 function onInputt(event) {
   if ((event.target.min <= event.target.value <= event.target.max)) {
+    console.log(event);
     let name = event.target.name;
+    let id = parseInt(event.target.id);
     if (event.target.type === "checkbox") {
       vars[name] = event.target.checked;
+      if (name.includes('BB') || name.includes('->')) {
+        // this can probably be cleaner but it works
+        let root_id = parseInt(document.getElementsByName('evil->normal quirk?')[0].id);
+        event.target.form.elements[root_id + 1].disabled = vars['evil->normal quirk?'] ? false : vars['can BB evil ngu adv a'];
+        event.target.form.elements[root_id + 3].disabled = !vars['can BB evil ngu adv a'];
+        event.target.form.elements[root_id + 4].disabled = vars['evil->normal quirk?'] ? false : vars['can BB evil ngu adv b'];
+        event.target.form.elements[root_id + 6].disabled = !vars['can BB evil ngu adv b'];
+      } else {
+        for (let i = id + 1; i <= id + 3; i++) {
+          event.target.form.elements[i].disabled = !vars[name];
+        }
+
+      }
     } else {
       vars[name] = event.target.value;
     }
   }
-
 }
 
 function inputobjects(key, index) {
@@ -125,37 +139,20 @@ function inputobjects(key, index) {
     ret.min = 1.1;
     ret.step = 0.01;
     //ret.defaultValue = 2;
-    ret.title = "How much bgger your stats need to be to reach your goal"
-  } else if (key.includes("ironpill")) {
+    ret.title = "How much bigger your stats need to be to reach your goal"
+  } else if (key.includes("iron pill sucks")) {
       ret.max= (key.includes("1") ? 26 : 4);
       ret.min= 1;
       ret.step= (key.includes("1") ? 5 : 1);
       //ret.defaultValue= 1;
       ret.title = "the current MULTIPLIER for the respective iron pill perk"
-  } else if (key.includes("push")) {
+  } else if (typeof(vars[key]) === "boolean") {
     ret.type= "checkbox";
-    //ret.defaultChecked = "true";
     ret.required = false;
-  }
-  else if (key.includes("cast")) {
-    ret.type= "checkbox";
-    //ret.defaultChecked = "true";
-    ret.required = false;
-  }
-  else if (key.includes("eat")) {
-    ret.type= "checkbox";
-    //ret.defaultChecked = "true";
-    ret.required = false;
-  }
-  else if (key.includes("evil->normal")) {
-    ret.type= "checkbox";
-    //ret.defaultChecked = "true";
-    ret.required = false;
-  }
-  else if (key.includes("BB")) {
-    ret.type= "checkbox";
-    //ret.defaultChecked = "true";
-    ret.required = false;
+    ret.title = "Unchecking this box will have the script not calculate the related features and disables the related fields"
+  } else if (key.includes('wish')) {
+    ret.max = 20;
+    ret.title = "The levels you've reached in the cube boosting wish. 0 if not applicable"
   }
   return ret;
 }
@@ -243,22 +240,18 @@ let form = {
 
 let storage = {};
 let Home = {
-  oninit: () => {
+  oninit: vnode => {
     console.log("init");
     //init();
     console.log(storage);
   },
-  oncreate: () => {
+  oncreate: vnode => {
     console.log("create");
     addvalidation();
   },
-  onupdate: () => {
+  onupdate: vnode => {
     console.log("update");
     //addvalidation();
-  },
-  onbeforeremove: vnode => {
-    console.log("beforeremove");
-    //storage = input;
   },
   view: function view() {
     return m("main", [// changed the next line
@@ -295,7 +288,7 @@ let Help = {
       className: "card-body"
     }, m("h2", {
       className: "card-title"
-    }, "Welcome to this very barebones long rb calculator"), "Warning: this script currently does not account for a few select features, and basically wont be very useful outside evil. It is mostly intended to be used for the last push of exile versions to get to sad.", m("p", null, m("b", null, "THIS SCRIPT CURRENTLY DOES NOT CACHE YOUR INPUTS WHEN YOU REFRESH")), "Yes I know my code sucks. ", m("a", {
+    }, "Welcome to this very barebones long rb calculator"), "Warning: this script currently does not account for a few select features, and basically wont be very useful outside evil. It is mostly intended to be used for the last push of exile versions to get to sad.", m("p", null, m("b", null, "THIS SCRIPT CURRENTLY DOES NOT CACHE YOUR INPUTS WHEN YOU REFRESH")), "Some notes about inputs:", m("ul", null, m("li", null, "If you BB only normal ngus, untick the evil-> quirk AND the BB evil ngu boxes"), m("li", null, "Respawn percentage is the value from stat breakdown, not from just gear")), "Yes I know my code sucks. ", m("a", {
       href: "https://github.com/jasperfirecai2/longrbcalc/issues/new"
     }, "Complain about it on github"))))]);
   }
