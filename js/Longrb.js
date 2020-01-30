@@ -210,7 +210,7 @@ export class Longrb
 
     let fruit;
     let ironstats;
-    let counters[0, 0];
+    let counters = [0, 0];
     for (let i = this.current + 50; i < 50 * 60 * 60 * 24 * 100 + this.current; i += 50 * 60) {
       let start = i - this.current;
       if (start / 50 / 60 / 60 / 11.5 >= 1) {
