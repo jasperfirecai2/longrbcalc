@@ -1,6 +1,6 @@
 import {Longrb} from "./Longrb.js";
-let test = new Longrb();
-let vars = test.get_vars();
+const longrb = new Longrb();
+let vars = longrb.get_vars();
 let result = 0;
 
 let inputs = () => {
@@ -46,7 +46,7 @@ let inputs = () => {
 
 
 
-let root = document.getElementById("container");
+const root = document.getElementById("container");
 
 // thank you @osban
 let app = () => {
@@ -179,8 +179,8 @@ function submitForm(event) {
 
   }
   //console.log(vars);
-  test.set_vars(vars);
-  result = test.run();
+  longrb.set_vars(vars);
+  result = longrb.run();
 }
 
 let form = {

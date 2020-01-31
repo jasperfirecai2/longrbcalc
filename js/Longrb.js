@@ -111,56 +111,56 @@ export class Longrb
    * @return {number}
    */
   BEARdstats(x) {
-    return 1 + Math.pow(x, 0.3) * 125.9 / 10
+    return 1 + Math.pow(x, 0.3) * 125.9 / 10;
   }
 
   /**
    * @return {number}
    */
   NGUastats(x) {
-    if (x > 1e9) {x = 1e9}
+    if (x > 1e9) x = 1e9;
     if (!this.evil_normal_quirk && this.bbeNGUa) {
       return 1;
     }
-    return 1 + Math.sqrt(x) * 3.17 / 100
+    return 1 + Math.sqrt(x) * 3.17 / 100;
   }
 
   /**
    * @return {number}
    */
   eNGUastats(x) {
-    if (x > 1e9) {x = 1e9}
+    if (x > 1e9) x = 1e9;
     if (!this.bbeNGUa) {
       return 1;
     }
-    return 1 + Math.pow(x, 0.25) * 8.8945 / 100
+    return 1 + Math.pow(x, 0.25) * 8.8945 / 100;
   }
 
   /**
    * @return {number}
    */
   NGUbstats(x) {
-    if (x > 1e9) {x = 1e9}
+    if (x > 1e9) x = 1e9;
     if (!this.evil_normal_quirk && this.bbeNGUb) {
       return 1;
     }
-    return 1 + Math.pow(x, 0.4) * 1.894 / 100
+    return 1 + Math.pow(x, 0.4) * 1.894 / 100;
   }
 
   /**
    * @return {number}
    */
   eNGUbstats(x) {
-    if (x > 1e9) {x = 1e9}
+    if (x > 1e9) x = 1e9;
     if (!this.bbeNGUb) {
       return 1;
     }
-    return 1 + Math.pow(x, 0.25) * 2.6675 / 100
+    return 1 + Math.pow(x, 0.25) * 2.6675 / 100;
   }
 
   cubegains(value, time_in_pod, recycling, respawn, cube_wish = 0, base_cube_ratio = 0.01 /*The base is 0.01 but the script uses 0.02 since i would assume you have 100pp to spend*/, idle_cd = 0.8) {
-    let cube_ratio = base_cube_ratio * (1 + cube_wish * 0.05);
-    let cube_equivalent = value * recycling * cube_ratio;
+    const cube_ratio = base_cube_ratio * (1 + cube_wish * 0.05);
+    const cube_equivalent = value * recycling * cube_ratio;
     return Math.floor(time_in_pod / (respawn + idle_cd) * 0.14) * cube_equivalent;
   }
 
@@ -174,13 +174,13 @@ export class Longrb
 
 
   ironpill(time_making_blood = 11.5 * 60 * 60) {
-    let blood_spent = this.bps * time_making_blood;
+    const blood_spent = this.bps * time_making_blood;
     return Math.floor(Math.pow(blood_spent, 0.25) * this.ironpillsucks1 * this.ironpillsucks2);
   }
 
   ppgains(time_in_pod, respawn, idle_cd = 0.8) {
-    let pp = Math.floor(time_in_pod / (respawn + idle_cd)) * this.ppppk / 1000000;
-    let perklevels = Math.floor(pp / this.adv_perks[parseInt(this.adv_perk) - 1][0]);
+    const pp = Math.floor(time_in_pod / (respawn + idle_cd)) * this.ppppk / 1000000;
+    const perklevels = Math.floor(pp / this.adv_perks[parseInt(this.adv_perk) - 1][0]);
     return this.adv_perk_current_bonus + this.adv_perks[parseInt(this.adv_perk) - 1][1] * perklevels;
   }
 
@@ -191,29 +191,29 @@ export class Longrb
     this.Boosts.slice(this.index).forEach(function (item) {
       sum += item;
     });
-    let recycling = sum / this.largestboost;
+    const recycling = sum / this.largestboost;
     let basetoughness = this.basetoughness;
-    let respawn = Math.ceil(50 * (4 * this.respawnpercent / 100)) / 50; //actual respawn
+    const respawn = Math.ceil(50 * (4 * this.respawnpercent / 100)) / 50; //actual respawn
     this.adv_perk_current_bonus = 1 + this.adv_perks[parseInt(this.adv_perk) - 1][1] * this.adv_perk_levels;
-    let currentAT = this.ATstats(this.current);
-    let currentBEARd = this.BEARdstats(this.current);
-    let totalmulti = currentBEARd * currentAT *
+    const currentAT = this.ATstats(this.current);
+    const currentBEARd = this.BEARdstats(this.current);
+    const totalmulti = currentBEARd * currentAT *
       this.eNGUastats(this.currenteNGUa) *
       this.NGUastats(this.currentNGUa) *
       this.eNGUbstats(this.currenteNGUb) *
       this.NGUbstats(this.currentNGUb) *
       this.adv_perk_current_bonus;
-    let cubevalue = this.subtotal-this.pre_cube;
+    const cubevalue = this.subtotal-this.pre_cube;
 
     let fruit;
     let ironstats;
     let counters = [0, 0];
     let harvests;
     for (let i = this.current + 50; i < 50 * 60 * 60 * 24 * 100 + this.current; i += 50 * 60) {
-      let start = i - this.current;
+      const start = i - this.current;
       if (start / 50 / 60 / 60 / 11.5 >= 1) {
         harvests = this.eatfruit ? Math.floor(start / 50 / 60 / (60 - this.fruitquirk) / 24) : 0;
-        let ironpills = this.doironpill ? Math.floor(start / 50 / 60 / 60 / 11.5) : 0;
+        const ironpills = this.doironpill ? Math.floor(start / 50 / 60 / 60 / 11.5) : 0;
         if (harvests === 1) {
           fruit = this.fruitgains(basetoughness);
         } else if (harvests > 1) {
@@ -233,14 +233,14 @@ export class Longrb
         ironstats = 0.0;
       }
       let cube = this.cubegains(this.boostvalue, ((i - this.current) / 50), recycling, respawn, this.cube_wish, 0.02);
-      let perks = this.level_perks ? this.ppgains(((start) / 50), respawn) : this.adv_perk_current_bonus;
+      const perks = this.level_perks ? this.ppgains(((start) / 50), respawn) : this.adv_perk_current_bonus;
       let statincrease = this.pre_cube + fruit + ironstats;
       if ((cubevalue + cube) > statincrease) {
         let leftover = cubevalue + cube - statincrease;
         cube = cube - leftover + Math.sqrt(leftover);
       }
       statincrease = (this.subtotal + fruit + ironstats + cube) / this.subtotal;
-      let ttemp = this.ATstats(i) *
+      const ttemp = this.ATstats(i) *
         this.BEARdstats(i) *
         this.NGUastats(start + this.currentNGUa) *
         this.eNGUastats(start + this.currenteNGUa) *
@@ -249,7 +249,7 @@ export class Longrb
         perks *
         statincrease;
       if (ttemp >= totalmulti * this.goalmulti) {
-        let ttime = (i - this.current) / (50 * 60 * 60 * 24);
+        const ttime = (i - this.current) / (50 * 60 * 60 * 24);
         // console.log(`\n\nYou would need ${ttime} days (estimate)\n\n\n` +
         //   'This script currently still does not account for:\n' +
         //   'Money pit (and probably won\'t cuz it\'s rng\n' +
