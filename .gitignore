@@ -7,3 +7,5 @@
 .editorconfig
 node_modules
 output
+/.eslintrc.js
+/.eslintrc

@@ -43,29 +43,6 @@ let Help = {
     ])
   )
 };
-let form = {
-  view: () => (
-    m("main", [
-      <form className="form" action="#" method="POST">
-        <div className="form-row">
-          <div className="col-md-12 col-6">
-            <input type="text" name="current" id="current" value="100000" placeholder="current" className="form-control" onInput={onInput(this.value)}>
-              100000
-            </input>
-            <label htmlFor="current">
-              Current AT/BEARd levels
-            </label>
-          </div>
-          <div className="col-md-6 col-2">
-            <button type="submit" className="btn btn-info">
-              Submit
-            </button>
-          </div>
-        </div>
-      </form>
-    ])
-  )
-};
 let output = {
   view: () => (
     m("main", [
