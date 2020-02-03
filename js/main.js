@@ -1,9 +1,18 @@
 import { Longrb } from './Longrb.js';
 const longrb = new Longrb();
-const vars = longrb.getVars();
 const root = document.getElementById('container');
+let saveInfo = true;
+let vars = {};
 let result = 0;
 let todisable = [];
+
+if (typeof Storage !== 'undefined') {
+	if (localStorage.vars) {
+		vars = JSON.parse(localStorage.vars);
+	} else { vars = longrb.getVars(); }
+} else {
+	console.log('No support for browser storage. inputs will be lost when the tab is refreshed or closed');
+}
 
 function inputobjects(key, index) {
 	const ret = {
@@ -131,7 +140,18 @@ function onInputt(event) {
 		} else {
 			vars[name] = event.target.value;
 		}
+		if (saveInfo) localStorage.vars = JSON.stringify(vars);
 	}
+}
+
+function clearcache(event) {
+	if (confirm(`Are you sure you want to clear your local storage${event.target.id === 'stopButton' ? ' and disable saving until a refresh' : ''}?`)) {
+		localStorage.removeItem('vars');
+		console.log('storage cleared');
+		event.target.disabled = true;
+		return true;
+	}
+	return false;
 }
 
 const Home = {
@@ -171,13 +191,40 @@ const Help = {
 						'Warning: this script currently does not account for a few select features, and basically wont be very useful outside evil. '
             + 'It is mostly intended to be used for the last push of exile versions to get to sad.',
 						m('p', null,
-							m('b', null, 'THIS SCRIPT CURRENTLY DOES NOT CACHE YOUR INPUTS WHEN YOU REFRESH')
-						), 'Some notes about inputs:',
+							'Some notes about inputs:'
+						),
 						m('ul', null,
 							m('li', null, 'If you BB only normal ngus, untick the evil-> quirk AND the BB evil ngu boxes'),
 							m('li', null, 'Respawn percentage is the value from stat breakdown, not from just gear')
 						), 'Yes I know my code sucks. ',
-						m('a', { href: 'https://github.com/jasperfirecai2/longrbcalc/issues/new' }, 'Complain about it on github'))
+						m('a', { href: 'https://github.com/jasperfirecai2/longrbcalc/issues/new' }, 'Complain about it on github'),
+						m('p', null,
+							'To save your data, all your inputs are saved in your browser whenever you edit an input. Use the yellow button to the right to delete this info '
+              + 'or the red button to delete it and prevent it from saving until you refresh.'
+						),
+						m('p', { className: 'float-right mt-8 mb-0' },
+							m('button', {
+								className: 'btn btn-warning',
+								disabled: !saveInfo,
+								id: 'clearButton',
+								onclick: clearcache,
+								type: 'button'
+							}, 'Clear cache'),
+							m('button', {
+								className: 'btn btn-danger',
+								disabled: !saveInfo,
+								id: 'stopButton',
+								onclick: event => {
+									if (clearcache(event)) {
+										document.getElementById('clearButton').disabled = true;
+										saveInfo = false;
+										console.log('Saving turned off until page refresh');
+									}
+								},
+								type: 'button'
+							}, 'Stop saving')
+						)
+					)
 				)
 			)
 		]);
