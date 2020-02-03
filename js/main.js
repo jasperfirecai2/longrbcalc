@@ -39,11 +39,11 @@ function inputobjects(key, index) {
 		ret.min = 1;
 		ret.step = 0.01;
 		ret.title = `The percentage that your current ${key.includes('respawn') ? 'respawn in stat breakdowns' : 'NGU ygg'}  shows`;
-	} else if (key === 'currentATlvls') {
+	} else if (key.includes('AT')) {
 		ret.max = 200000000;
 		ret.min = 100000;
 		ret.title = 'The current lvls in AT/BEARd. Assuming you BB em both and they are around the same level';
-	} else if (key === 'goalmulti') {
+	} else if (key.includes('goal')) {
 		ret.max = 100;
 		ret.min = 1.1;
 		ret.step = 0.01;
