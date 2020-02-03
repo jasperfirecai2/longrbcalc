@@ -7,9 +7,8 @@ let result = 0;
 let todisable = [];
 
 if (typeof Storage !== 'undefined') {
-	if (localStorage.vars) {
-		vars = JSON.parse(localStorage.vars);
-	} else { vars = longrb.getVars(); }
+	if (localStorage.vars) vars = JSON.parse(localStorage.vars);
+	else vars = longrb.getVars();
 } else {
 	console.log('No support for browser storage. inputs will be lost when the tab is refreshed or closed');
 }
