@@ -30,6 +30,7 @@ export class Longrb {
 		this.evilToNormalQuirk = true;
 		this.doIronPill = true;
 		this.eatFruit = true;
+		this.poopFruit = false;
 		this.preCube = 500000000;
 		this.cubeWish = 0;
 	}
@@ -56,6 +57,7 @@ export class Longrb {
 			'base toughness': this.baseToughness,
 			'ngu ygg percentage': this.nguYgg,
 			'fertiliser quirk levels': this.fruitQuirk,
+			'poop adv fruit?': this.poopFruit,
 			'cast iron pill?': this.doIronPill,
 			'blood per second': this.bps,
 			'iron pill sucks 1 multiplier': this.ironPillSucks1,
@@ -104,6 +106,7 @@ export class Longrb {
 		this.doIronPill = vars['cast iron pill?'];
 		this.eatFruit = vars['eat adv fruit?'];
 		this.preCube = parseInt(vars['subtotal Pre-cube']);
+		this.poopFruit = vars['poop adv fruit?'];
 	}
 
 	/**
@@ -218,7 +221,8 @@ export class Longrb {
    * @param {number} blueheart whether or not the blue heart set bonus is obtained
    * @param {number} poop whether or not poop is used
    */
-	fruitgains(baseToughness, firstHarvest = 1.5, equipYggYield = 1.63, tier = 24, blueheart = 1.1, poop = 1.5) {
+	fruitgains(baseToughness, firstHarvest = 1.5, equipYggYield = 1.63, tier = 24, blueheart = 1.1, poop = 1.0) {
+		if (this.poopFruit) poop = 1.5;
 		return Math.floor(Math.ceil(Math.pow(tier, 1.5))
       * (poop * blueheart)
       * Math.pow(baseToughness, 0.2)
