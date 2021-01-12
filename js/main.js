@@ -186,7 +186,7 @@ const Help = {
 				m('div', { className: 'card' },
 					m('div', { className: 'card-header' }, 'Help'),
 					m('div', { className: 'card-body' },
-						m('h2', { className: 'card-title' }, 'Welcome to this very barebones long rb calculator'),
+						m('h2', { className: 'card-title' }, 'Welcome to this very barebones long rb calculator for NGU IDLE'),
 						'Warning: this script currently does not account for a few select features, and basically wont be very useful outside evil. '
             + 'It is mostly intended to be used for the last push of exile versions to get to sad.',
 						m('p', null,
